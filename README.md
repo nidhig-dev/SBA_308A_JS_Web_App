@@ -21,9 +21,9 @@
 
 - ✅Ensure the program runs as expected, without any undesired behavior caused by misunderstanding of the JavaScript event loop (such as race conditions, API calls being handled out of order, etc.).
 
-- Create an engaging user experience through the use of HTML and CSS.
+- ✅Create an engaging user experience through the use of HTML and CSS.
 
-- Ensure that the program runs without errors (comment out things that do not work, and explain your blockers - you can still receive partial credit).
+- ✅Ensure that the program runs without errors (comment out things that do not work, and explain your blockers - you can still receive partial credit).
 
 - ✅Commit frequently to the git repository.
 
@@ -35,11 +35,11 @@
 
 
 - What could you have done differently during the planning stages of your project to make the execution easier?
-   - I could have planned all my event listeners functionalities better.
+   - I could have planned all my event listeners functionalities better. I could think of two scenarios only which reused the create img and create info paragraph. I could have planned to incorporate more functionalities.
 
 - What would you add to, or change about your application if given more time?
 
-    - 
+    - I would have added spells and house info as well but trying to keep the page one had its drawbacks and I ran out of time. I could have added links in nav bar if I had time.
 
 
 

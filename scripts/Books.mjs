@@ -1,14 +1,20 @@
 
-import * as bootstrap from "https://esm.sh/bootstrap@5.3.2";
+// This mjs script is handling all book related functions. It includes:
+// Creating a book cover img 
+// Deleting the book cover image
+// Appending the book cover image
+// Appending the information about the book selected.
 
 export function createBooksItem(imgSrc, imgAlt, imgId) {
-    const template = document.querySelector("#carouselItemTemplate");
+    const template = document.querySelector("#bookItemTemplate");
+    console.log("template clone is",template);
     const clone = template.content.firstElementChild.cloneNode(true);
 
     const img = clone.querySelector("img");
     img.src = imgSrc;
     img.alt = imgAlt;
-
+    // const infoDump=clone.querySelector("#infoDump");
+    // script.createInfoDump(infoDump);
     // const favBtn = clone.querySelector(".favourite-button");
     // favBtn.addEventListener("click", () => {
     //     favourite(imgId);
@@ -27,6 +33,7 @@ export function clear() {
     }
 }
 
+
 export function appendBooks(element) {
 
     console.log("element is", element);
@@ -35,44 +42,11 @@ export function appendBooks(element) {
     carousel.appendChild(element);
 }
 
-// export function start() {
-//     const multipleCardBooks = document.querySelector(
-//         "#carouselExampleControls"
-//     );
-//     if (window.matchMedia("(min-width: 768px)").matches) {
-//         const carousel = new bootstrap.Books(multipleCardBooks, {
-//             interval: false
-//         });
-//         const carouselWidth = $(".carousel-inner")[0].scrollWidth;
-//         const cardWidth = $(".carousel-item").width();
-//         let scrollPosition = 0;
-//         $("#carouselExampleControls .carousel-control-next").unbind();
-//         $("#carouselExampleControls .carousel-control-next").on(
-//             "click",
-//             function () {
-//                 if (scrollPosition < carouselWidth - cardWidth * 4) {
-//                     scrollPosition += cardWidth;
-//                     $("#carouselExampleControls .carousel-inner").animate(
-//                         { scrollLeft: scrollPosition },
-//                         600
-//                     );
-//                 }
-//             }
-//         );
-//         $("#carouselExampleControls .carousel-control-prev").unbind();
-//         $("#carouselExampleControls .carousel-control-prev").on(
-//             "click",
-//             function () {
-//                 if (scrollPosition > 0) {
-//                     scrollPosition -= cardWidth;
-//                     $("#carouselExampleControls .carousel-inner").animate(
-//                         { scrollLeft: scrollPosition },
-//                         600
-//                     );
-//                 }
-//             }
-//         );
-//     } else {
-//         $(multipleCardBooks).addClass("slide");
-//     }
-// }
+export function appendBookInfo(element) {
+
+    console.log("element is", element);
+    const infoDump = document.getElementById("infoDump");
+    console.log("info dump is", infoDump);
+    infoDump.appendChild(element);
+}
+
