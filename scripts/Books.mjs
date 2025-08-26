@@ -1,20 +1,19 @@
 
 import * as bootstrap from "https://esm.sh/bootstrap@5.3.2";
-import { favourite } from "./script.mjs";
 
-export function createCarouselItem(imgSrc, imgAlt, imgId) {
+export function createBooksItem(imgSrc, imgAlt, imgId) {
     const template = document.querySelector("#carouselItemTemplate");
     const clone = template.content.firstElementChild.cloneNode(true);
 
     const img = clone.querySelector("img");
     img.src = imgSrc;
     img.alt = imgAlt;
-    
+
     // const favBtn = clone.querySelector(".favourite-button");
     // favBtn.addEventListener("click", () => {
     //     favourite(imgId);
     // });
-    console.log("clone img is",clone);
+    console.log("clone img is", clone);
     return clone;
 }
 
@@ -22,26 +21,26 @@ export function clear() {
     const carousel = document.querySelector(".img-wrapper");
     if (carousel) {
         carousel.remove(carousel); // remove the div containing img
-        console.log("Image removed");        
+        console.log("Image removed");
     } else {
         console.log("No carousel found to clear");
-    }    
+    }
 }
 
-export function appendCarousel(element) {
+export function appendBooks(element) {
 
-    console.log("element is",element);
+    console.log("element is", element);
     const carousel = document.querySelector(".infoImg");
-    console.log("div is",carousel);
+    console.log("div is", carousel);
     carousel.appendChild(element);
 }
 
 // export function start() {
-//     const multipleCardCarousel = document.querySelector(
+//     const multipleCardBooks = document.querySelector(
 //         "#carouselExampleControls"
 //     );
 //     if (window.matchMedia("(min-width: 768px)").matches) {
-//         const carousel = new bootstrap.Carousel(multipleCardCarousel, {
+//         const carousel = new bootstrap.Books(multipleCardBooks, {
 //             interval: false
 //         });
 //         const carouselWidth = $(".carousel-inner")[0].scrollWidth;
@@ -74,6 +73,6 @@ export function appendCarousel(element) {
 //             }
 //         );
 //     } else {
-//         $(multipleCardCarousel).addClass("slide");
+//         $(multipleCardBooks).addClass("slide");
 //     }
 // }

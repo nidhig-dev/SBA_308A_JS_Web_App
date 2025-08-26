@@ -20,7 +20,7 @@
     <script defer src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
     <!-- Our Scripts -->
-    <script defer type="module" src="./scripts/Carousel.mjs"></script>
+    <script defer type="module" src="./scripts/Books.mjs"></script>
     <script defer type="module" src="./scripts/script.mjs"></script>
 </head>
 
@@ -47,14 +47,15 @@
         </select>
     </div>
     <div class="d-flex castHP">
-        
-        <button id="getFavouritesBtn" class="btn btn-success mx-3 mb-5">
+
+        <button id="getCastBtn" class="btn btn-success mx-3 mb-5">
             Get Cast
         </button>
-        <input type="text" id="searchBox" placeholder="Enter first name of character. Harry, Ron, Hermione.." autofocus />
+        <input type="text" id="searchBox" placeholder="Enter first name of character. Harry, Ron, Hermione.."
+            autofocus />
     </div>
 
-    <!-- Carousel -->
+    <!-- Books -->
     <!-- <div id="carouselExampleControls" class="carousel" data-bs-ride="carousel">
         <div id="carouselInner" class="carousel-inner"></div>
         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
@@ -70,19 +71,19 @@
     </div> -->
     <!-- Information and image Section -->
     <div class="infoImg">
-        <!-- Carousel Item Template -->
+        <!-- Books Item Template -->
         <template id="carouselItemTemplate">
             <!-- <div class="carousel-item"> -->
-                <!-- <div class="card"> -->
+            <!-- <div class="card"> -->
             <div class="img-wrapper">
                 <img src="https://via.placeholder.com/600/92c952" class="d-block w-100" alt="..." />
             </div>
-                <!-- </div> -->
+            <!-- </div> -->
             <!-- </div> -->
         </template>
         <div id="infoDump" class="px-5 py-3 " style="max-width: 1600px;"></div>
     </div>
-    <!-- Carousel Item Template -->
+    <!-- Books Item Template -->
 </body>
 
 </html>

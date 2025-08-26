@@ -1,25 +1,34 @@
-import * as Carousel from "./Carousel.mjs";
+import * as Books from "./Books.mjs";
 import axios from "https://cdn.jsdelivr.net/npm/axios@1.6.7/dist/esm/axios.min.js";
 import * as bootstrap from "https://esm.sh/bootstrap@5.3.2";
 
 export async function getCast(event) {
     try {
+        event.preventDefault();
         infoDump.innerHTML = "";
+        Books.clear();
         let castName = document.getElementById("searchBox");
         console.log("cast name is", castName.value);
         console.log("inside new fun");
+        //let searchRes = [];
+
         let searchRes = await axios.get(`https://potterapi-fedeperin.vercel.app/en/characters?search=${castName.value}`);
-        console.log("data lenght is", searchRes.data.length)
+        console.log("data lenght is", searchRes.data.length);
+        if (castName.value == "") {
+            throw new Error("Enter a cast name");
+        }
+
+
         if (searchRes.data.length != 0) {
             console.log("fav list is", searchRes.data);
-            Carousel.clear();
+            Books.clear();
             for (let i = 0; i < searchRes.data.length; i++) {
                 console.log("url is", searchRes.data[i].image);
                 console.log("image id is", searchRes.data[i].index);
 
-                let img = Carousel.createCarouselItem(searchRes.data[i].image, "", searchRes.data[i].index)
-                Carousel.appendCarousel(img);
-                // Carousel.start();
+                let img = Books.createBooksItem(searchRes.data[i].image, "", searchRes.data[i].index)
+                Books.appendBooks(img);
+                // Books.start();
                 createCharProfile(searchRes);
             }
         }
