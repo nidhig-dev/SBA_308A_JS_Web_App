@@ -42,18 +42,20 @@
     <!-- Select by Breed -->
     <div class="filterBooks">
         <h3>Select by Books: </h3>
-        <select id="breedSelect" style="width: auto;" class="form-select form-select-lg my-1 "
+        <select id="bookSelect" style="width: auto;" class="form-select form-select-lg my-1 "
             aria-label="form-select-lg">
         </select>
     </div>
-    <div class="d-flex castHP">
+    <form id="searchForm" class="d-flex castHP">
+        <!-- <div class="d-flex castHP"> -->
 
-        <button id="getCastBtn" class="btn btn-success mx-3 mb-5">
+        <button id="getCastBtn" type="submit" class="btn btn-success mx-3 mb-5">
             Get Cast
         </button>
         <input type="text" id="searchBox" placeholder="Enter first name of character. Harry, Ron, Hermione.."
             autofocus />
-    </div>
+        <!-- </div> -->
+    </form>
 
     <!-- Books -->
     <!-- <div id="carouselExampleControls" class="carousel" data-bs-ride="carousel">

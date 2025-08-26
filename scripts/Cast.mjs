@@ -1,6 +1,8 @@
 import * as Books from "./Books.mjs";
 import axios from "https://cdn.jsdelivr.net/npm/axios@1.6.7/dist/esm/axios.min.js";
 import * as bootstrap from "https://esm.sh/bootstrap@5.3.2";
+import { updateProgess} from "./script.mjs";
+
 
 export async function getCast(event) {
     try {
@@ -8,19 +10,23 @@ export async function getCast(event) {
         infoDump.innerHTML = "";
         Books.clear();
         let castName = document.getElementById("searchBox");
-        console.log("cast name is", castName.value);
-        console.log("inside new fun");
+        // console.log("cast name is", castName.value);
+        // console.log("inside new fun");
         //let searchRes = [];
 
-        let searchRes = await axios.get(`https://potterapi-fedeperin.vercel.app/en/characters?search=${castName.value}`);
-        console.log("data lenght is", searchRes.data.length);
+        let searchRes = await axios.get(`https://potterapi-fedeperin.vercel.app/en/characters?search=${castName.value}`,
+            {
+                onDownloadProgress: updateProgess
+            }
+        );
+        // console.log("data lenght is", searchRes.data.length);
         if (castName.value == "") {
             throw new Error("Enter a cast name");
         }
 
 
         if (searchRes.data.length != 0) {
-            console.log("fav list is", searchRes.data);
+            // console.log("fav list is", searchRes.data);
             Books.clear();
             for (let i = 0; i < searchRes.data.length; i++) {
                 console.log("url is", searchRes.data[i].image);
@@ -36,8 +42,12 @@ export async function getCast(event) {
             alert("Incorrect first name of the book character");
             throw new Error("Incorrect first name of the book character");
         }
+        progressBar.style.width = "100%";
+        castName.value="";
+        castName.focus();
     }
     catch (error) {
+        progressBar.style.width = "0%";
         console.error(error.message);
     }
 }

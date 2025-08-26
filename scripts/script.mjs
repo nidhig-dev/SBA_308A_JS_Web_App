@@ -4,13 +4,14 @@ import * as Cast from "./Cast.mjs";
 // import axios from "axios";
 
 // The breed selection input element.
-const breedSelect = document.getElementById("breedSelect");
+const bookSelect = document.getElementById("bookSelect");
 // The information section div element.
 const infoDump = document.getElementById("infoDump");
 // The progress bar div element.
 const progressBar = document.getElementById("progressBar");
-// The get favourites button element.
-const getCastBtn = document.getElementById("getCastBtn");
+// The get cast button element.
+const form = document.querySelector("#searchForm");
+// const getCastBtn = document.getElementById("getCastBtn");
 // const getcarouselInner = document.getElementById("carouselInner");
 // Step 0: Store your API key here for reference and easy access.
 const API_KEY = "live_ZJwDKQB0Is5vcGkkS2rWk5AaiZbsONSgEsbVeGXJwdNkHtBkwcK9GoZRc6nEuJMy";
@@ -22,13 +23,15 @@ axios.defaults.headers.common["Accept"] = "application/json";
 (async function initialLoadBooks() {
     try {
         // get all harry potter books
-        const response = await axios.get("https://potterapi-fedeperin.vercel.app/en/books"
-            // "https://api.thedogapi.com/v1/breeds?limit=20&page=0"
+        const response = await axios.get("https://potterapi-fedeperin.vercel.app/en/books",
+            {
+                onDownloadProgress: updateProgess
+            }
         );
         console.log("response obj is", response.data);
         for (let i = 0; i < response.data.length; i++) {
             let option = document.createElement("option");
-            console.log("index is", breedSelect.selectedIndex);
+            console.log("index is", bookSelect.selectedIndex);
             // get index of book
             option.setAttribute("value", i);
             // response.data[i].number);
@@ -36,49 +39,41 @@ axios.defaults.headers.common["Accept"] = "application/json";
             option.textContent = response.data[i].title;
             // option.setAttribute("value", response.data[i].id);
             // option.textContent = response.data[i].name;
-            breedSelect.appendChild(option);
+            bookSelect.appendChild(option);
         }
 
         // Automatically select first item and trigger handler
-        if (breedSelect.options.length > 0) {
-            breedSelect.selectedIndex = 0;
+        if (bookSelect.options.length > 0) {
+            bookSelect.selectedIndex = 0;
 
-            handleGetBookInfo({ target: breedSelect }); // manually call handler
+            handleGetBookInfo({ target: bookSelect }); // manually call handler
         }
 
 
-
+        progressBar.style.width = "100%";
 
     } catch (error) {
+        progressBar.style.width = "0%";
         console.error(error.message);
     }
 })();
 
-breedSelect.addEventListener("change", handleGetBookInfo);
+bookSelect.addEventListener("change", handleGetBookInfo);
 
 async function handleGetBookInfo(event) {
     try {
-        if (breedSelect.selectedIndex != 0) {
+        if (bookSelect.selectedIndex != 0) {
             // dont call preventdefault function, if calling eventlistener manaully
             event.preventDefault();
         }
         // Clear previous paragraphs
         Books.clear();
-
-        // console.log("this is what u clciked",event.target)
-        // console.log(`get image for ${event.target.value}`);
-        // getting the selected book's details object
         const response = await axios(
             `https://potterapi-fedeperin.vercel.app/en/books?index=${event.target.value}`,
             {
                 onDownloadProgress: updateProgess
             }
         );
-        // console.log("potter book is",response.data);
-        // console.log("potter name is", response.data.title);
-        // console.log("cover is", response.data.cover);
-        // for (let i = 0; i < response.data.length; i++) {
-        //     // creating a carousal of dog images by calling fn
         let img = Books.createBooksItem(
             response.data.cover,
             response.data.title,
@@ -137,9 +132,7 @@ axios.interceptors.request.use(request => {
         progressBar.style.width = "0%";
         let body = document.querySelector("body");
         body.style.cursor = "progress"; // show loading cursor
-
     }
-
     request.metadata = request.metadata || {};
     request.metadata.startTime = new Date().getTime();
     return request;
@@ -152,11 +145,6 @@ axios.interceptors.response.use((response) => {
         let body = document.querySelector("body");
         body.style.cursor = "default"; // reset cursor
     }
-
-    // response.config.metadata.endTime = new Date().getTime();
-    // response.config.metadata.durationInMS = response.config.metadata.endTime - response.config.metadata.startTime;
-
-    // console.log(`Request took ${response.config.metadata.durationInMS} milliseconds.`)
     return response;
 },
     (error) => {
@@ -164,13 +152,7 @@ axios.interceptors.response.use((response) => {
             progressBar.style.width = "100%";
             let body = document.querySelector("body");
             body.style.cursor = "default"; // reset cursor
-
         }
-
-        // error.config.metadata.endTime = new Date().getTime();
-        // error.config.metadata.durationInMS = error.config.metadata.endTime - error.config.metadata.startTime;
-
-        // console.log(`Request took ${error.config.metadata.durationInMS} milliseconds.`)
         throw error;
     });
 /**
@@ -188,7 +170,7 @@ axios.interceptors.response.use((response) => {
  *   once or twice per request to this API. This is still a concept worth familiarizing yourself
  *   with for future projects.
  */
-function updateProgess(progressEvent) {
+export function updateProgess(progressEvent) {
     // console.log(progressEvent);
     const { loaded, total } = progressEvent;
     if (total) {
@@ -196,110 +178,4 @@ function updateProgess(progressEvent) {
         progressBar.style.width = percent + "%";
     }
 }
-/**
- * 7. As a final element of progress indication, add the following to your axios interceptors:
- * - In your request interceptor, set the body element's cursor style to "progress."
- * - In your response interceptor, remove the progress cursor style from the body element.
- */
-/**
- * 8. To practice posting data, we'll create a system to "favourite" certain images.
- * - The skeleton of this function has already been created for you.
- * - This function is used within Books.js to add the event listener as items are created.
- *  - This is why we use the export keyword for this function.
- * - Post to the cat API's favourites endpoint with the given ID.
- * - The API documentation gives examples of this functionality using fetch(); use Axios!
- * - Add additional logic to this function such that if the image is already favourited,
- *   you delete that favourite using the API, giving this function "toggle" functionality.
- * - You can call this function by clicking on the heart at the top right of any image.
- */
-export async function favourite(imgId) {
-    // your code here
-    // console.log("img Id is", imgId);
-    try {
-        let existRes = await axios.get("https://api.thedogapi.com/v1/favourites", {
-            params: { image_id: imgId }
-        });
-        console.log("existing fav is", existRes.data);
-        // if image is already favorited then delete it
-        if (existRes.data.length > 0) {
-            // console.log("I am deleting", existRes.data[0].id);
-            await axios.delete(
-                `https://api.thedogapi.com/v1/favourites/${existRes.data[0].id}`
-            );
-        } else {
-            // console.log("I am posting", existRes.data);
-            const response = await axios.post(
-                "https://api.thedogapi.com/v1/favourites",
-                { image_id: imgId }
-            );
-        }
-
-        progressBar.style.width = "100%";
-    } catch (error) {
-        console.error(error.message);
-        progressBar.style.width = "0%";
-    }
-}
-
-/**
- * 9. Test your favourite() function by creating a getFavourites() function.
- * - Use Axios to get all of your favourites from the cat API.
- * - Clear the carousel and display your favourites when the button is clicked.
- *  - You will have to bind this event listener to getCastBtn yourself.
- *  - Hint: you already have all of the logic built for building a carousel.
- *    If that isn't in its own function, maybe it should be so you don't have to
- *    repeat yourself in this section.
- */
-getCastBtn.addEventListener("click", Cast.getCast);
-// Cast.getCast();
-// async function getCast(event) {
-//     try {
-//         infoDump.innerHTML = "";
-//         let castName=document.getElementById("searchBox");
-//         console.log("cast name is",castName.value);
-//         console.log("inside new fun");
-//         let searchRes = await axios.get(`https://potterapi-fedeperin.vercel.app/en/characters?search=${castName.value}`);
-//         console.log("data lenght is", searchRes.data.length)
-//         if (searchRes.data.length!=0) {
-//             console.log("fav list is", searchRes.data);
-//             Books.clear();
-//             for (let i = 0; i < searchRes.data.length; i++) {
-//                 console.log("url is", searchRes.data[i].image);
-//                 console.log("image id is", searchRes.data[i].index);
-
-//                 let img = Books.createBooksItem(searchRes.data[i].image, "", searchRes.data[i].index)
-//                 Books.appendBooks(img);
-//                 // Books.start();
-//                 createCharProfile(searchRes);
-//             }
-//         }
-//         else{
-//             alert("Incorrect first name of the book character");
-//             throw new Error("Incorrect first name of the book character");
-//         }
-//     }
-//     catch (error) {
-//         console.error(error.message);
-//     }
-// }
-
-// async function createCharProfile(response) {
-//     infoDump.innerHTML = "";
-//     console.log("reponse in get cast is",response);
-//     let p = document.createElement("p");
-//     p.innerHTML = `<b> Full Name: </b> ${response.data[0].fullName} <br/><br/>
-//     <b> Nickname: </b> ${response.data[0].nickname} <br/><br/>
-//     <b> Hogwarts House: </b>  ${response.data[0].hogwartsHouse} <br/><br/>
-//     <b> Interpreted By: </b>  ${response.data[0].interpretedBy} <br/><br/>
-//     <b> Children: </b> ${response.data[0].children}  <br/><br/>
-//     <b> Birthdate: </b> ${response.data[0].birthdate}  <br/><br/>
-//     `;
-//     infoDump.appendChild(p);
-// }
-/**
- * 10. Test your site, thoroughly!
- * - What happens when you try to load the Malayan breed?
- *  - If this is working, good job! If not, look for the reason why and fix it!
- * - Test other breeds as well. Not every breed has the same data available, so
- *   your code should account for this.
- */
+form.addEventListener("submit", Cast.getCast);
