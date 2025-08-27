@@ -69,7 +69,6 @@ async function handleGetBookInfo(event) {
         let img = Books.createBooksItem(
             response.data.cover,
             response.data.title,
-            response.data.number
         );
         // call a function to add book cover image
         Books.appendBooks(img);

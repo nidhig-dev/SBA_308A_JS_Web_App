@@ -7,7 +7,7 @@
 import * as bootstrap from "https://esm.sh/bootstrap@5.3.2";
 import * as script from "./script.mjs";
 
-export function createCastItem(imgSrc, imgAlt, imgId) {
+export function createCastItem(imgSrc, imgAlt) {
     const template = document.querySelector("#castItemTemplate");
     console.log("template clone is", template);
     const clone = template.content.firstElementChild.cloneNode(true);

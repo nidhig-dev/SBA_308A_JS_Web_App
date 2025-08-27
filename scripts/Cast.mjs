@@ -34,7 +34,7 @@ export async function getCast(event) {
         if (searchRes.data.length != 0) {
             Books.clear();
             for (let i = 0; i < searchRes.data.length; i++) {
-                let img = Books.createBooksItem(searchRes.data[i].image, "", searchRes.data[i].index)
+                let img = Books.createBooksItem(searchRes.data[i].image, searchRes.data[i].fullName)
                 Books.appendBooks(img);
                 createCharProfile(searchRes);
             }
@@ -84,7 +84,7 @@ export async function getAllCast(event) {
             carouselCast.appendChild(divItem)
 
             for (let i = 0; i < searchRes.data.length; i++) {
-                let img = castCarousal.createCastItem(searchRes.data[i].image, "", searchRes.data[i].index)
+                let img = castCarousal.createCastItem(searchRes.data[i].image, searchRes.data[i].fullName)
                 castCarousal.appendCast(img);
             }
             castCarousal.start();
