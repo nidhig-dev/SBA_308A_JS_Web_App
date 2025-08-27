@@ -67,13 +67,10 @@ async function createCharProfile(response) {
 export async function getAllCast(event) {
     try {
         event.preventDefault();
-        console.log("I am in all cast function");
         infoDump.innerHTML = "";
         castCarousal.castClear();
         Books.clear();
-        let castName = document.getElementById("searchBox");
-        let searchRes = await axios.get(`https://potterapi-fedeperin.vercel.app/en/characters?search=${castName.value}`);
-        console.log("my all cast array is",searchRes.data);
+        let searchRes = await axios.get(`https://potterapi-fedeperin.vercel.app/en/characters`);
         if (searchRes.data.length != 0) {
             const divItem = document.createElement("div");
             divItem.classList.add("carousel-item");
@@ -93,8 +90,6 @@ export async function getAllCast(event) {
             alert("Incorrect first name of the book character");
             throw new Error("Incorrect first name of the book character");
         }
-        castName.value = "";
-        castName.focus();
     }
     catch (error) {
         console.error(error.message);

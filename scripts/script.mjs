@@ -28,7 +28,6 @@ axios.defaults.headers.common["Accept"] = "application/json";
         const response = await axios.get("https://potterapi-fedeperin.vercel.app/en/books");
         for (let i = 0; i < response.data.length; i++) {
             let option = document.createElement("option");
-            console.log("index is", bookSelect.selectedIndex);
             // get index of book as the next function needs index and not id
             option.setAttribute("value", i);
             // get title of book
