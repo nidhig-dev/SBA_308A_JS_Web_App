@@ -1,19 +1,16 @@
-// This mjs script is handling functions related to Cast.
-// when get cast by name button is clicked. It:
+// This mjs script handles functions related to Cast.
+// When get cast by name button is clicked. It:
 // Fetches one character based on search name
 // Displays details of that character
 
 // when get entire cast button is clicked, it:
-// fetches entire cast array and uses cast carousal mjs to display in carousal format
-
-
+// fetches entire cast array and uses cast carousal mjs to display characters in carousal format
 
 import * as Books from "./Books.mjs";
 import axios from "https://cdn.jsdelivr.net/npm/axios@1.6.7/dist/esm/axios.min.js";
-import * as bootstrap from "https://esm.sh/bootstrap@5.3.2";
-// import { updateProgess} from "./script.mjs";
 import * as castCarousal from "./castCarousal.mjs"
 
+// This fn gets one character and its info based on the search string entered
 export async function getCast(event) {
     try {
         event.preventDefault();
@@ -23,51 +20,39 @@ export async function getCast(event) {
         // remove the div classes that were created for cast carousal
         const divItem = document.querySelector(".carousel-item");
         const divCard = document.querySelector(".card");
-        console.log("right now is",divItem,divCard);
         if (divItem!=null || divCard!=null){
             divItem.remove();
             divCard.remove();
         }
-
         let castName = document.getElementById("searchBox");
-        let searchRes = await axios.get(`https://potterapi-fedeperin.vercel.app/en/characters?search=${castName.value}`,
-            // {
-            //     onDownloadProgress: updateProgess
-            // }
-        );
+        let searchRes = await axios.get(`https://potterapi-fedeperin.vercel.app/en/characters?search=${castName.value}`);
+        // throw error if no name was entered in search
         if (castName.value == "") {
             throw new Error("Enter a cast name");
         }
-
-
+        // if right name was entered and data was returned 
         if (searchRes.data.length != 0) {
             Books.clear();
             for (let i = 0; i < searchRes.data.length; i++) {
-                console.log("url is", searchRes.data[i].image);
-                console.log("image id is", searchRes.data[i].index);
-
                 let img = Books.createBooksItem(searchRes.data[i].image, "", searchRes.data[i].index)
                 Books.appendBooks(img);
                 createCharProfile(searchRes);
             }
         }
         else {
+            // if wrong name was entered and no data was returned 
             alert("Incorrect first name of the book character");
             throw new Error("Incorrect first name of the book character");
         }
-        // progressBar.style.width = "100%";
         castName.value="";
         castName.focus();
     }
     catch (error) {
-        // progressBar.style.width = "0%";
         console.error(error.message);
-    }
-}
-
+    }}
+// This fn displays the info section for the character
 async function createCharProfile(response) {
     infoDump.innerHTML = "";
-    console.log("reponse in get cast is", response);
     let p = document.createElement("p");
     p.innerHTML = `<b> Full Name: </b> ${response.data[0].fullName} <br/><br/>
     <b> Nickname: </b> ${response.data[0].nickname} <br/><br/>
@@ -78,7 +63,7 @@ async function createCharProfile(response) {
     infoDump.appendChild(p);
 }
 
-
+// This fn returns an array of characters when get entire cast button is clicked.
 export async function getAllCast(event) {
     try {
         event.preventDefault();
@@ -87,20 +72,9 @@ export async function getAllCast(event) {
         castCarousal.castClear();
         Books.clear();
         let castName = document.getElementById("searchBox");
-        let searchRes = await axios.get(`https://potterapi-fedeperin.vercel.app/en/characters?search=${castName.value}`,
-            // {
-            //     onDownloadProgress: updateProgess
-            // }
-        );
+        let searchRes = await axios.get(`https://potterapi-fedeperin.vercel.app/en/characters?search=${castName.value}`);
         console.log("my all cast array is",searchRes.data);
         if (searchRes.data.length != 0) {
-            // Books.castClear();
-            // const infodiv=document.getElementById("infoDump");
-            // infodiv.remove();
-            
-            // const wrapDiv = document.createElement("div");
-            // wrapDiv.classList.add("img-wrapper")
-            // divCard.appendChild(wrapDiv);
             const divItem = document.createElement("div");
             divItem.classList.add("carousel-item");
             const divCard = document.createElement("div");
@@ -110,16 +84,8 @@ export async function getAllCast(event) {
             carouselCast.appendChild(divItem)
 
             for (let i = 0; i < searchRes.data.length; i++) {
-                console.log("url is", searchRes.data[i].image);
-                console.log("image id is", searchRes.data[i].index);
-
                 let img = castCarousal.createCastItem(searchRes.data[i].image, "", searchRes.data[i].index)
-                
-
-                
                 castCarousal.appendCast(img);
-               
-                // createCharProfile(searchRes);
             }
             castCarousal.start();
         }
@@ -127,12 +93,10 @@ export async function getAllCast(event) {
             alert("Incorrect first name of the book character");
             throw new Error("Incorrect first name of the book character");
         }
-        // progressBar.style.width = "100%";
         castName.value = "";
         castName.focus();
     }
     catch (error) {
-        // progressBar.style.width = "0%";
         console.error(error.message);
     }
 }
